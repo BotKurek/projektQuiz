@@ -4,7 +4,7 @@ using System.Collections.Generic;
 Console.WriteLine("Start programu Quiz.");
 
 // 1. Stwórz nowy quiz
-IQuiz myQuiz = new Quiz("Prosty Quiz");
+IQuiz<IQuestion> myQuiz = new Quiz<IQuestion>("Prosty Quiz");
 
 // 2. Stwórz pytania
 IQuestion q1 = new Question("Jaka jest stolica Polski?");
@@ -47,13 +47,14 @@ public interface IQuestion
 }
 
 // Interfejs dla całego quizu
-public interface IQuiz
+public interface IQuiz<TQuestion> where TQuestion : IQuestion
 {
     string Title { get; set; }
-    IList<IQuestion> Questions { get; set; }
-    int Score { get; } // Tylko do odczytu
-    void AddQuestion(IQuestion question);
-    void Run();
+    IList<TQuestion> Questions { get; set; } 
+    int Score { get; }
+
+    void AddQuestion(TQuestion question);
+        void Run();
 }
 
 // Klasa reprezentująca odpowiedź
@@ -111,20 +112,20 @@ public class Question : IQuestion
 // ---
 
 // Klasa reprezentująca quiz
-public class Quiz : IQuiz
+public class Quiz<TQuestion> : IQuiz<TQuestion> where TQuestion : IQuestion
 {
     public string Title { get; set; }
-    public IList<IQuestion> Questions { get; set; }
+    public IList<TQuestion> Questions { get; set; } // Implementacja używa TQuestion
     public int Score { get; private set; }
 
     public Quiz(string title)
     {
         Title = title;
-        Questions = new List<IQuestion>();
+        Questions = new List<TQuestion>(); // Tworzymy listę konkretnego typu
         Score = 0;
     }
 
-    public void AddQuestion(IQuestion question)
+    public void AddQuestion(TQuestion question) // Metoda przyjmuje TQuestion
     {
         Questions.Add(question);
     }
