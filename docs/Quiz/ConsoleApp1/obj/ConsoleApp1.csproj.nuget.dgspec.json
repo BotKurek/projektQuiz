@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/maciek/project/docs/c#-kopia/ConsoleApp1/ConsoleApp1.csproj": {}
+    "/Users/maciek/project/projektQuiz/docs/Quiz/ConsoleApp1/ConsoleApp1.csproj": {}
   },
   "projects": {
-    "/Users/maciek/project/docs/c#-kopia/ConsoleApp1/ConsoleApp1.csproj": {
+    "/Users/maciek/project/projektQuiz/docs/Quiz/ConsoleApp1/ConsoleApp1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/maciek/project/docs/c#-kopia/ConsoleApp1/ConsoleApp1.csproj",
+        "projectUniqueName": "/Users/maciek/project/projektQuiz/docs/Quiz/ConsoleApp1/ConsoleApp1.csproj",
         "projectName": "ConsoleApp1",
-        "projectPath": "/Users/maciek/project/docs/c#-kopia/ConsoleApp1/ConsoleApp1.csproj",
+        "projectPath": "/Users/maciek/project/projektQuiz/docs/Quiz/ConsoleApp1/ConsoleApp1.csproj",
         "packagesPath": "/Users/maciek/.nuget/packages/",
-        "outputPath": "/Users/maciek/project/docs/c#-kopia/ConsoleApp1/obj/",
+        "outputPath": "/Users/maciek/project/projektQuiz/docs/Quiz/ConsoleApp1/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/maciek/.nuget/NuGet/NuGet.Config"

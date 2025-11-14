@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO; // Do operacji na plikach
-using System.Text.Json; // Do serializacji JSON
-using System.Text.Json.Serialization; // WAŻNE: Potrzebne do atrybutów polimorfizmu
+using System.IO;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Reflection;
 
 // === KOD STARTOWY ===
 
 Console.WriteLine("Start programu Quiz.");
 
-string filename = "gaming_quiz.json";
+string exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
+
+// Łączy tę ścieżkę z nazwą pliku
+string filename = Path.Combine(exePath, "gaming_quiz.json");
 IQuiz<IQuestion>? loadedQuiz = null; 
 
 // === WCZYTANIE Z PLIKU ===
