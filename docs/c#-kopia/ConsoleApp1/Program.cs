@@ -1,35 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO; // Do operacji na plikach
+using System.Text.Json; // Do serializacji JSON
+using System.Text.Json.Serialization; // WAŻNE: Potrzebne do atrybutów polimorfizmu
+
+// === KOD STARTOWY ===
 
 Console.WriteLine("Start programu Quiz.");
 
-// 1. Stwórz nowy quiz
-IQuiz<IQuestion> myQuiz = new Quiz<IQuestion>("Prosty Quiz");
+string filename = "gaming_quiz.json";
+IQuiz<IQuestion>? loadedQuiz = null; 
 
-// 2. Stwórz pytania
-IQuestion q1 = new Question("Jaka jest stolica Polski?");
-q1.AddAnswer("Poznań");
-q1.AddAnswer("Kraków");
-q1.AddAnswer("Warszawa", true);
-q1.AddAnswer("Gdańsk");
+// === WCZYTANIE Z PLIKU ===
+try
+{
+    if (File.Exists(filename))
+    {
+        string jsonString = File.ReadAllText(filename);
+        
+        // Teraz to zadziała, bo interfejsy mają atrybuty
+        loadedQuiz = JsonSerializer.Deserialize<Quiz<IQuestion>>(jsonString);
+        
+        Console.WriteLine($"[INFO] Quiz został pomyślnie wczytany z pliku: {filename}\n");
+    }
+    else
+    {
+        Console.WriteLine($"[BŁĄD] Nie znaleziono pliku quizu '{filename}'.");
+        Console.WriteLine("Upewnij się, że plik JSON z quizem znajduje się w tym samym folderze co program.");
+    }
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"[BŁĄD] Nie udało się wczytać lub przetworzyć quizu: {ex.Message}");
+}
 
-IQuestion q2 = new Question("Ile wynosi 2 + 2 * 2?");
-q2.AddAnswer("8");
-q2.AddAnswer("6", true);
-q2.AddAnswer("4");
+// === URUCHOMIENIE QUIZU ===
+if (loadedQuiz != null)
+{
+    loadedQuiz.Run();
+}
+else
+{
+    Console.WriteLine("Nie udało się uruchomić quizu, ponieważ nie został poprawnie wczytany.");
+}
 
-// 3. Dodaj pytania do quizu
-myQuiz.AddQuestion(q1);
-myQuiz.AddQuestion(q2);
-
-// 4. Uruchom quiz
-myQuiz.Run();
 
 Console.WriteLine("\nNaciśnij Enter, aby zakończyć...");
 Console.ReadLine();
 
 
+// === INTERFEJSY ===
+
 // Interfejs dla pojedynczej odpowiedzi
+// POPRAWKA: Dodajemy atrybuty mówiące, że IAnswer jest implementowane przez klasę Answer
+[JsonDerivedType(typeof(Answer), typeDiscriminator: "answer")]
 public interface IAnswer
 {
     string Text { get; set; }
@@ -37,10 +61,12 @@ public interface IAnswer
 }
 
 // Interfejs dla pojedynczego pytania
+// POPRAWKA: Dodajemy atrybuty mówiące, że IQuestion jest implementowane przez klasę Question
+[JsonDerivedType(typeof(Question), typeDiscriminator: "question")]
 public interface IQuestion
 {
+    List<IAnswer> Answers { get; set; } // Zmienione z IList na List dla serializacji
     string Text { get; set; }
-    IList<IAnswer> Answers { get; set; } 
     void AddAnswer(string text, bool isCorrect = false);
     void Display();
     bool CheckAnswer(int choiceIndex);
@@ -50,12 +76,13 @@ public interface IQuestion
 public interface IQuiz<TQuestion> where TQuestion : IQuestion
 {
     string Title { get; set; }
-    IList<TQuestion> Questions { get; set; } 
+    List<TQuestion> Questions { get; set; } // Zmienione z IList na List dla serializacji
     int Score { get; }
-
     void AddQuestion(TQuestion question);
-        void Run();
+    void Run();
 }
+
+// === KLASY ===
 
 // Klasa reprezentująca odpowiedź
 public class Answer : IAnswer
@@ -63,6 +90,7 @@ public class Answer : IAnswer
     public string Text { get; set; }
     public bool IsCorrect { get; set; }
 
+    public Answer() { Text = ""; } 
     public Answer(string text, bool isCorrect = false)
     {
         Text = text;
@@ -76,7 +104,13 @@ public class Answer : IAnswer
 public class Question : IQuestion
 {
     public string Text { get; set; }
-    public IList<IAnswer> Answers { get; set; }
+    public List<IAnswer> Answers { get; set; }
+
+    public Question() 
+    {
+        Text = "";
+        Answers = new List<IAnswer>();
+    }
 
     public Question(string text)
     {
@@ -115,17 +149,24 @@ public class Question : IQuestion
 public class Quiz<TQuestion> : IQuiz<TQuestion> where TQuestion : IQuestion
 {
     public string Title { get; set; }
-    public IList<TQuestion> Questions { get; set; } // Implementacja używa TQuestion
+    public List<TQuestion> Questions { get; set; }
     public int Score { get; private set; }
+
+    public Quiz()
+    {
+        Title = "";
+        Questions = new List<TQuestion>();
+        Score = 0;
+    }
 
     public Quiz(string title)
     {
         Title = title;
-        Questions = new List<TQuestion>(); // Tworzymy listę konkretnego typu
+        Questions = new List<TQuestion>();
         Score = 0;
     }
 
-    public void AddQuestion(TQuestion question) // Metoda przyjmuje TQuestion
+    public void AddQuestion(TQuestion question)
     {
         Questions.Add(question);
     }
@@ -136,36 +177,68 @@ public class Quiz<TQuestion> : IQuiz<TQuestion> where TQuestion : IQuestion
         Console.WriteLine($"--- Witaj w quizie: {Title}! ---");
         Console.WriteLine();
 
+        if (Questions.Count == 0)
+        {
+            Console.WriteLine("Wczytany quiz nie zawiera żadnych pytań.");
+            return;
+        }
+
         foreach (var question in Questions)
         {
             question.Display(); 
-            Console.Write("Twoja odpowiedź (podaj numer 1, 2, 3...): ");
             
-            string userInput = Console.ReadLine() ?? ""; 
+            int userChoice = 0; // Przechowa poprawny wybór użytkownika
+            bool isValidInput = false; // Flaga do kontrolowania pętli
 
-            if (int.TryParse(userInput, out int userChoice))
+            // Ta pętla będzie działać, dopóki użytkownik nie poda poprawnej liczby
+            while (!isValidInput)
             {
-                if (question.CheckAnswer(userChoice))
+                // Pytamy o odpowiedź, podając zakres (np. 1-4)
+                Console.Write($"Twoja odpowiedź (podaj numer 1-{question.Answers.Count}): ");
+                string userInput = Console.ReadLine() ?? ""; 
+
+                // 1. Sprawdzamy, czy to w ogóle jest liczba
+                if (int.TryParse(userInput, out userChoice))
                 {
-                    Console.WriteLine("Poprawna odpowiedź! 👍");
-                    Score++;
+                    // 2. Jeśli tak, sprawdzamy, czy jest w poprawnym zakresie
+                    if (userChoice > 0 && userChoice <= question.Answers.Count)
+                    {
+                        // Sukces! To jest poprawna odpowiedź (np. 1, 2, 3 lub 4)
+                        isValidInput = true; // To zakończy pętlę 'while'
+                    }
+                    else
+                    {
+                        // To jest liczba, ale zła (np. 0, 5, 6)
+                        Console.WriteLine($"Błędny numer! Proszę podać liczbę od 1 do {question.Answers.Count}.");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Niestety, zła odpowiedź. 👎");
+                    // To w ogóle nie jest liczba (np. "abc")
+                    Console.WriteLine("To nie jest poprawny numer. Spróbuj jeszcze raz.");
                 }
+            }
+
+            // Po wyjściu z pętli 'while' mamy pewność, że 'userChoice' jest poprawną liczbą.
+            // Teraz dopiero sprawdzamy, czy jest to dobra odpowiedź.
+
+            if (question.CheckAnswer(userChoice))
+            {
+                Console.WriteLine("Poprawna odpowiedź! 👍");
+                Score++;
             }
             else
             {
-                Console.WriteLine("To nie jest poprawny numer. Tracisz punkt.");
+                Console.WriteLine("Niestety, zła odpowiedź. 👎");
             }
             Console.WriteLine(); 
         }
         
         ShowResults();
+        
+        ShowResults();
     }
 
-    // Metoda prywatna do wyświetlania wyników
     private void ShowResults()
     {
         Console.WriteLine("--- Koniec quizu! ---");
