@@ -1,10 +1,10 @@
 # Progressive Project
 # Description
-A brief description of the project.
+This project is a Quiz about video games
 # Installation
 1. Clone the repository:
 ```sh
-git clone https: /github.com/your-username/your-repository.git
+git clone https://github.com/BotKurek/projektQuiz.git
 ```
 2. Navigate to the project directory:
 ```sh
