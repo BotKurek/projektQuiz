@@ -5,7 +5,7 @@ AreAnyAssembliesTrimmed=false
 				AOTOutputDirectory=obj/Debug/net9.0-maccatalyst/maccatalyst-x64/nativelibraries/aot-output/
 				DedupAssembly=
 				AppBundleManifestPath=bin/Debug/net9.0-maccatalyst/maccatalyst-x64/QuizApp.app/Contents/Info.plist
-				CacheDirectory=/Users/maciek/project/QuizApp/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/linker-cache
+				CacheDirectory=/Users/maciek/project/projektQuiz/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/linker-cache
 				
 				Debug=true
 				DeploymentTarget=15.0
@@ -185,7 +185,7 @@ FrameworkAssembly=System.Private.CoreLib
 				IntermediateLinkDir=obj/Debug/net9.0-maccatalyst/maccatalyst-x64/linked/
 				InvariantGlobalization=false
 				HybridGlobalization=true
-				ItemsDirectory=/Users/maciek/project/QuizApp/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/linker-items
+				ItemsDirectory=/Users/maciek/project/projektQuiz/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/linker-items
 				IsAppExtension=false
 				IsSimulatorBuild=False
 				LibMonoLinkMode=static

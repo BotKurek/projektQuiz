@@ -12,6 +12,10 @@
 		<data>
 		FW2wBROpPYMzLO6DPyAYiWxN7hI=
 		</data>
+		<key>Resources/MauiInfo.plist</key>
+		<data>
+		iEtuUGCV6JM3gxS/pO33swhmpp8=
+		</data>
 		<key>Resources/MonoTouchDebugConfiguration.txt</key>
 		<data>
 		oowkf1sL6T19nanXUObgmuayWqM=
@@ -39,6 +43,10 @@
 		<key>Resources/dotnet_bot@3x.png</key>
 		<data>
 		E6TbkG67IIcIivXqUvCewCcJVpk=
+		</data>
+		<key>Resources/gaming_quiz.json</key>
+		<data>
+		rsYtcGOd4Ey+ePRo9sHd+oPC8yQ=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -194,14 +202,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			q+L4qnOKI7U9ZqDI4w6NTZqZSKfX+HIa4dh1akoMuHM=
+			zzJPbcJLCPaZSeJJPwBwALfHpbtzPJ+x7QJhia+5Z1k=
 			</data>
 		</dict>
 		<key>MonoBundle/QuizApp.pdb</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Bq2t6vyICfJv0iAOzkWcIb52LZV8BnEFqUFRPp+W9Pg=
+			eDuSufFQfVs4zjcEXnyJJdnxzMpb51+QzUsYas8Nm3A=
 			</data>
 		</dict>
 		<key>MonoBundle/System.AppContext.dll</key>
@@ -1618,6 +1626,13 @@
 			pSycY0Wk3XuEZ/KLyQ10c0BxAK/oYplcK2uTWClM5No=
 			</data>
 		</dict>
+		<key>Resources/MauiInfo.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			tx0KXqEC+DvcCGyogQTEQWHcCWJYYqH24NtPwhpQEjo=
+			</data>
+		</dict>
 		<key>Resources/MonoTouchDebugConfiguration.txt</key>
 		<dict>
 			<key>hash2</key>
@@ -1665,6 +1680,13 @@
 			<key>hash2</key>
 			<data>
 			d2Gg1+DupbistlJE5a4jOLSzZ2q4I5lWEpVOudV7gAs=
+			</data>
+		</dict>
+		<key>Resources/gaming_quiz.json</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			wtvYGbPtwgrlONkgZeX/TYoHrI7RppLFZzUdqJbQ2y0=
 			</data>
 		</dict>
 	</dict>

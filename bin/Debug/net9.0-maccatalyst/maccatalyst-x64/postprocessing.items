@@ -8,9 +8,9 @@
       <dSYMSourcePathExists>false</dSYMSourcePathExists>
       <NoSymbolStrip>true</NoSymbolStrip>
       <dSYMInfoPlistRelativePath>QuizApp.app.dSYM\Contents\Info.plist</dSYMInfoPlistRelativePath>
-      <SymbolFile>/Users/maciek/project/QuizApp/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/mtouch-symbols.list</SymbolFile>
+      <SymbolFile>/Users/maciek/project/projektQuiz/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/mtouch-symbols.list</SymbolFile>
       <DSymName>QuizApp.app.dSYM</DSymName>
-      <SourceProjectPath>/Users/maciek/project/QuizApp</SourceProjectPath>
+      <SourceProjectPath>/Users/maciek/project/projektQuiz</SourceProjectPath>
       <IsXPCService></IsXPCService>
     </_PostProcessingItem>
   </ItemGroup>

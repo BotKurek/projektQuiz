@@ -1,42 +1,84 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO; // <-- Potrzebne do wczytania pliku
+using System.Text.Json; // <-- Potrzebne do wczytania pliku
+using System.Threading.Tasks; // <-- Potrzebne do wczytania pliku
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Storage; // <-- Potrzebne do wczytania pliku
 
 namespace QuizApp;
 
 public partial class MainPage : ContentPage
 {
-    private IQuiz<IQuestion> _quiz;
+    // ZMIANA 1: (Konieczna dla Deserializacji JSON)
+    // Zmieniamy interfejs IQuestion na konkretną klasę Question.
+    // Deserializator musi wiedzieć, jaką klasę stworzyć.
+    private IQuiz<Question> _quiz;
     private int _currentQuestionIndex;
 
     public MainPage()
     {
         InitializeComponent();
-        LoadQuiz();
+
+        // ZMIANA 2: (Konieczna, bo wczytywanie jest 'async')
+        // Usuwamy stąd wywołanie LoadQuiz(). Nie można używać 'await' w konstruktorze.
     }
 
-    
-
-    private void LoadQuiz()
+    // DODANE: (Konieczne, bo ZMIANA 2)
+    // To jest właściwe miejsce na ładowanie danych, które się wczytują.
+    protected override async void OnAppearing()
     {
-        // Load the quiz (replace with your actual loading logic)
-        _quiz = new Quiz<IQuestion>("Sample Quiz");
-        var question1 = new Question("What is 2 + 2?");
-        question1.AddAnswer("3", false);
-        question1.AddAnswer("4", true);
-        question1.AddAnswer("5", false);
-        _quiz.AddQuestion(question1);
-
-        var question2 = new Question("What is the capital of France?");
-        question2.AddAnswer("Berlin", false);
-        question2.AddAnswer("Paris", true);
-        question2.AddAnswer("Madrid", false);
-        _quiz.AddQuestion(question2);
-
-        DisplayQuestion(0);
+        base.OnAppearing();
+        if (_quiz == null) // Upewnij się, że ładujesz tylko raz
+        {
+            await LoadQuizAsync(); // Wywołujemy naszą nową, asynchroniczną metodę
+        }
     }
+
+    // ZMIANA 3: (To jest rdzeń Twojej prośby)
+    // Zastępujemy Twoje 'LoadQuiz()' tą wersją 'async Task'.
+    private async Task LoadQuizAsync()
+    {
+        string filename = "gaming_quiz.json"; // Nazwa pliku w Resources/Raw
+
+        try
+        {
+            // Otwórz plik (jako MauiAsset)
+            using var stream = await FileSystem.OpenAppPackageFileAsync(filename);
+            if (stream == null)
+            {
+                await DisplayAlert("Błąd", $"Nie znaleziono pliku quizu: '{filename}'.", "OK");
+                return;
+            }
+
+            // Wczytaj go
+            using var reader = new StreamReader(stream);
+            string jsonString = await reader.ReadToEndAsync();
+
+            // Przetwórz JSON. Zauważ, że używamy Quiz<Question>
+            _quiz = JsonSerializer.Deserialize<Quiz<Question>>(jsonString);
+
+            // Jeśli wszystko poszło OK, wyświetl pierwsze pytanie
+            DisplayQuestion(0);
+        }
+        catch (Exception ex)
+        {
+            // Jeśli plik JSON jest zły lub coś poszło nie tak
+            await DisplayAlert("Błąd krytyczny", $"Nie udało się wczytać quizu: {ex.Message}", "OK");
+            QuestionLabel.Text = "Błąd ładowania quizu.";
+        }
+    }
+
+    // --- PONIŻSZE METODY SĄ NIEMAL NIETKNIĘTE ---
 
     private void DisplayQuestion(int index)
     {
+        // Sprawdzenie, czy quiz się w ogóle wczytał
+        if (_quiz == null)
+        {
+            return; // Błąd został już pokazany w LoadQuizAsync
+        }
+
         if (index >= _quiz.Questions.Count)
         {
             ShowResults();
@@ -64,7 +106,7 @@ public partial class MainPage : ContentPage
 
      void OnNextButtonClicked(object sender, EventArgs args)
     {
-        // await label.RelRotateToAsync(360, 1000);
+        // ... bez zmian
     }
 
     private void OnAnswerSelected(object? sender, EventArgs e)

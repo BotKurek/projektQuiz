@@ -6,9 +6,9 @@
 	<dict>
 		<key>output-files</key>
 		<array>
-			<string>/Users/maciek/project/QuizApp/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/actool/bundle/Assets.car</string>
-			<string>/Users/maciek/project/QuizApp/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/actool/bundle/appicon.icns</string>
-			<string>/Users/maciek/project/QuizApp/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/actool/partial-info.plist</string>
+			<string>/Users/maciek/project/projektQuiz/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/actool/bundle/Assets.car</string>
+			<string>/Users/maciek/project/projektQuiz/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/actool/bundle/appicon.icns</string>
+			<string>/Users/maciek/project/projektQuiz/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/actool/partial-info.plist</string>
 		</array>
 	</dict>
 </dict>

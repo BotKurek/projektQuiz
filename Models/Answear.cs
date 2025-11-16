@@ -1,10 +1,10 @@
-public class Answer : IAnswer
+public class Answear : IAnswear
 {
     public string Text { get; set; }
     public bool IsCorrect { get; set; }
 
-    public Answer() { Text = ""; } 
-    public Answer(string text, bool isCorrect = false)
+    public Answear() { Text = ""; } 
+    public Answear(string text, bool isCorrect = false)
     {
         Text = text;
         IsCorrect = isCorrect;

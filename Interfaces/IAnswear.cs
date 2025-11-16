@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
-[JsonDerivedType(typeof(Answer), typeDiscriminator: "answer")]
-public interface IAnswer
+[JsonDerivedType(typeof(Answear), typeDiscriminator: "answear")]
+public interface IAnswear
 {
     string Text { get; set; }
     bool IsCorrect { get; set; }

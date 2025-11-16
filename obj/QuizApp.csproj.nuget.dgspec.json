@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/maciek/project/QuizApp/QuizApp.csproj": {}
+    "/Users/maciek/project/projektQuiz/QuizApp.csproj": {}
   },
   "projects": {
-    "/Users/maciek/project/QuizApp/QuizApp.csproj": {
+    "/Users/maciek/project/projektQuiz/QuizApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/maciek/project/QuizApp/QuizApp.csproj",
+        "projectUniqueName": "/Users/maciek/project/projektQuiz/QuizApp.csproj",
         "projectName": "QuizApp",
-        "projectPath": "/Users/maciek/project/QuizApp/QuizApp.csproj",
+        "projectPath": "/Users/maciek/project/projektQuiz/QuizApp.csproj",
         "packagesPath": "/Users/maciek/.nuget/packages/",
-        "outputPath": "/Users/maciek/project/QuizApp/obj/",
+        "outputPath": "/Users/maciek/project/projektQuiz/obj/",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
         "configFilePaths": [

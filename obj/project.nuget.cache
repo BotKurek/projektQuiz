@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "fJ55dFbzGhg=",
+  "dgSpecHash": "0Nv9HtjgBms=",
   "success": true,
-  "projectFilePath": "/Users/maciek/project/QuizApp/QuizApp.csproj",
+  "projectFilePath": "/Users/maciek/project/projektQuiz/QuizApp.csproj",
   "expectedPackageFiles": [
     "/Users/maciek/.nuget/packages/microsoft.extensions.configuration/9.0.8/microsoft.extensions.configuration.9.0.8.nupkg.sha512",
     "/Users/maciek/.nuget/packages/microsoft.extensions.configuration.abstractions/9.0.8/microsoft.extensions.configuration.abstractions.9.0.8.nupkg.sha512",

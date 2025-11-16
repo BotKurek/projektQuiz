@@ -44,18 +44,18 @@ public class Quiz<TQuestion> : IQuiz<TQuestion> where TQuestion : IQuestion
 
             while (!isValidInput)
             {
-                Console.Write($"Twoja odpowiedź (podaj numer 1-{question.Answers.Count}): ");
+                Console.Write($"Twoja odpowiedź (podaj numer 1-{question.Answears.Count}): ");
                 string userInput = Console.ReadLine() ?? ""; 
 
                 if (int.TryParse(userInput, out userChoice))
                 {
-                    if (userChoice > 0 && userChoice <= question.Answers.Count)
+                    if (userChoice > 0 && userChoice <= question.Answears.Count)
                     {
                         isValidInput = true;
                     }
                     else
                     {
-                        Console.WriteLine($"Błędny numer! Proszę podać liczbę od 1 do {question.Answers.Count}.");
+                        Console.WriteLine($"Błędny numer! Proszę podać liczbę od 1 do {question.Answears.Count}.");
                     }
                 }
                 else
