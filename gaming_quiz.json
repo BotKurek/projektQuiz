@@ -1,0 +1,216 @@
+{
+    "Title": "Prosty Quiz o Grach",
+    "Questions": [
+      {
+        "Text": "Kto jest g\u0142\u00F3wnym bohaterem serii \u0027The Witcher\u0027?",
+        "Answers": [
+          {
+            "Text": "Ezio Auditore",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Kratos",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Geralt z Rivii",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Arthur Morgan",
+            "IsCorrect": false
+          }
+        ]
+      },
+      {
+        "Text": "Jaka firma stworzy\u0142a gr\u0119 \u0027Minecraft\u0027?",
+        "Answers": [
+          {
+            "Text": "Mojang Studios",
+            "IsCorrect": true
+          },
+          {
+            "Text": "CD Projekt Red",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Ubisoft",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Rockstar Games",
+            "IsCorrect": false
+          }
+        ]
+      },
+      {
+        "Text": "W \u0027Cyberpunk 2077\u0027, jak nazywa si\u0119 cyfrowy duch nawiedzaj\u0105cy V?",
+        "Answers": [
+          {
+            "Text": "Jackie Welles",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Johnny Silverhand",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Adam Smasher",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Dexter DeShawn",
+            "IsCorrect": false
+          }
+        ]
+      },
+      {
+        "Text": "Jak nazywa si\u0119 fikcyjne miasto, w kt\u00F3rym dzieje si\u0119 akcja \u0027GTA V\u0027?",
+        "Answers": [
+          {
+            "Text": "Liberty City",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Vice City",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Los Santos",
+            "IsCorrect": true
+          },
+          {
+            "Text": "San Fierro",
+            "IsCorrect": false
+          }
+        ]
+      },
+      {
+        "Text": "Kto jest g\u0142\u00F3wnym tw\u00F3rc\u0105 \u0027Stardew Valley\u0027?",
+        "Answers": [
+          {
+            "Text": "ConcernedApe",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Notch",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Toby Fox",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Re-Logic",
+            "IsCorrect": false
+          }
+        ]
+      },
+      {
+        "Text": "Jak ma na imi\u0119 zielony brat Mario?",
+        "Answers": [
+          {
+            "Text": "Wario",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Luigi",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Waluigi",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Yoshi",
+            "IsCorrect": false
+          }
+        ]
+      },
+      {
+        "Text": "Jaki przedmiot s\u0142u\u017Cy do g\u0142\u00F3wnego leczenia w \u0027Dark Souls\u0027?",
+        "Answers": [
+          {
+            "Text": "Mikstura Zdrowia",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Butelka Estusa",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Apteczka",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Banda\u017C",
+            "IsCorrect": false
+          }
+        ]
+      },
+      {
+        "Text": "Jak nazywa si\u0119 g\u0142\u00F3wny bohater \u0027The Elder Scrolls V: Skyrim\u0027?",
+        "Answers": [
+          {
+            "Text": "Nerevarine",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Bohater Kvatch",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Czempion Cyrodiil",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Dovahkiin (Smocze Dzieci\u0119)",
+            "IsCorrect": true
+          }
+        ]
+      },
+      {
+        "Text": "Kto jest tw\u00F3rc\u0105 serii \u0027Metal Gear Solid\u0027?",
+        "Answers": [
+          {
+            "Text": "Hideo Kojima",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Sid Meier",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Gabe Newell",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Shigeru Miyamoto",
+            "IsCorrect": false
+          }
+        ]
+      },
+      {
+        "Text": "Z jakiej serii gier pochodzi posta\u0107 'Creeper'?",
+        "Answers": [
+          {
+            "Text": "Terraria",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Roblox",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Minecraft",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Fortnite",
+            "IsCorrect": false
+          }
+        ]
+      }
+    ],
+    "Score": 0
+  }
