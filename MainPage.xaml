@@ -1,12 +1,17 @@
-﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+﻿
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="QuizApp.MainPage">
 
-    <StackLayout Padding="20">
-        <Label x:Name="QuizTitleLabel" Text="Quiz Title" FontSize="24" HorizontalOptions="Center" />
+    
+    
+    <StackLayout Padding="20" Spacing="10">
+        <SearchBar x:Name="QuizSearch" Placeholder="Wyszukaj quiz po nazwie..." SearchButtonPressed="OnQuizSearchPressed" />
+        <Label x:Name="QuizTitleLabel" Text="Tytuł Quizu" FontSize="24" HorizontalOptions="Center" />
         <Label x:Name="QuestionLabel" Text="Question will appear here" FontSize="18" />
         <StackLayout x:Name="AnswersStack" />
         <Button Text="Next" Clicked="OnNextButtonClicked" IsVisible="False" />
         <Label x:Name="ResultLabel" Text="" FontSize="18" TextColor="Green" IsVisible="False" />
     </StackLayout>
+
 </ContentPage>

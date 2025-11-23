@@ -1,75 +1,64 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO; // <-- Potrzebne do wczytania pliku
-using System.Text.Json; // <-- Potrzebne do wczytania pliku
-using System.Threading.Tasks; // <-- Potrzebne do wczytania pliku
+using System.IO; 
+using System.Text.Json; 
+using System.Threading.Tasks; 
 using Microsoft.Maui.Controls;
-using Microsoft.Maui.Storage; // <-- Potrzebne do wczytania pliku
+using Microsoft.Maui.Storage; 
 
 namespace QuizApp;
 
 public partial class MainPage : ContentPage
 {
-    // ZMIANA 1: (Konieczna dla Deserializacji JSON)
-    // Zmieniamy interfejs IQuestion na konkretną klasę Question.
-    // Deserializator musi wiedzieć, jaką klasę stworzyć.
-    private IQuiz<Question> _quiz;
+    private IQuiz<Question> _quiz; 
     private int _currentQuestionIndex;
+    private readonly QuizService _quizService; // Serwis bazy danych
 
     public MainPage()
     {
         InitializeComponent();
-
-        // ZMIANA 2: (Konieczna, bo wczytywanie jest 'async')
-        // Usuwamy stąd wywołanie LoadQuiz(). Nie można używać 'await' w konstruktorze.
+        _quizService = new QuizService();
     }
 
-    // DODANE: (Konieczne, bo ZMIANA 2)
-    // To jest właściwe miejsce na ładowanie danych, które się wczytują.
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        if (_quiz == null) // Upewnij się, że ładujesz tylko raz
+        if (_quiz == null)
         {
-            await LoadQuizAsync(); // Wywołujemy naszą nową, asynchroniczną metodę
+            await LoadQuizFromDbAsync();
         }
     }
 
-    // ZMIANA 3: (To jest rdzeń Twojej prośby)
-    // Zastępujemy Twoje 'LoadQuiz()' tą wersją 'async Task'.
-    private async Task LoadQuizAsync()
+    private async Task LoadQuizFromDbAsync()
     {
-        string filename = "gaming_quiz.json"; // Nazwa pliku w Resources/Raw
-
         try
         {
-            // Otwórz plik (jako MauiAsset)
-            using var stream = await FileSystem.OpenAppPackageFileAsync(filename);
-            if (stream == null)
+            // 1. Załaduj przykładowe dane, jeśli baza jest pusta
+            await _quizService.SeedDataAsync();
+
+            // 2. Pobierz dostępny quiz
+            var quizzes = await _quizService.GetAllQuizzesAsync();
+            var firstQuiz = quizzes.FirstOrDefault();
+
+            if (firstQuiz != null)
             {
-                await DisplayAlert("Błąd", $"Nie znaleziono pliku quizu: '{filename}'.", "OK");
-                return;
+                // 3. Pobierz pełne dane (pytania i odpowiedzi)
+                _quiz = await _quizService.GetQuizWithDetailsAsync(firstQuiz.Id);
+                
+                if (_quiz != null && _quiz.Questions.Count > 0)
+                {
+                    DisplayQuestion(0);
+                    return;
+                }
             }
-
-            // Wczytaj go
-            using var reader = new StreamReader(stream);
-            string jsonString = await reader.ReadToEndAsync();
-
-            // Przetwórz JSON. Zauważ, że używamy Quiz<Question>
-            _quiz = JsonSerializer.Deserialize<Quiz<Question>>(jsonString);
-
-            // Jeśli wszystko poszło OK, wyświetl pierwsze pytanie
-            DisplayQuestion(0);
+            
+            QuestionLabel.Text = "Brak quizów w bazie danych.";
         }
         catch (Exception ex)
         {
-            // Jeśli plik JSON jest zły lub coś poszło nie tak
-            await DisplayAlert("Błąd krytyczny", $"Nie udało się wczytać quizu: {ex.Message}", "OK");
-            QuestionLabel.Text = "Błąd ładowania quizu.";
+            await DisplayAlert("Błąd Bazy", ex.Message, "OK");
         }
     }
-
-    // --- PONIŻSZE METODY SĄ NIEMAL NIETKNIĘTE ---
 
     private void DisplayQuestion(int index)
     {
@@ -139,5 +128,37 @@ public partial class MainPage : ContentPage
         QuestionLabel.Text = $"Your score: {_quiz.Score}/{_quiz.Questions.Count}";
         AnswersStack.Children.Clear();
         ResultLabel.IsVisible = false;
+    }
+
+    private async void OnQuizSearchPressed(object sender, EventArgs e)
+    {
+        string searchTerm = QuizSearch.Text;
+
+        try
+        {
+            // Wywołujemy naszą nową metodę z LINQ
+            var foundQuizzes = await _quizService.SearchQuizzesAsync(searchTerm);
+
+            if (foundQuizzes.Count > 0)
+            {
+                // Jeśli znaleziono, załaduj pierwszy pasujący quiz
+                var quizSummary = foundQuizzes.First();
+                
+                // Pobierz szczegóły (odpowiedzi) dla tego quizu
+                _quiz = await _quizService.GetQuizWithDetailsAsync(quizSummary.Id);
+                
+                // Zresetuj grę i pokaż pierwsze pytanie znalezionego quizu
+                _currentQuestionIndex = 0;
+                DisplayQuestion(0);
+            }
+            else
+            {
+                await DisplayAlert("Wynik", "Nie znaleziono quizu o takiej nazwie.", "OK");
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Błąd", ex.Message, "OK");
+        }
     }
 }
