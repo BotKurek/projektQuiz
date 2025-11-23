@@ -295,3 +295,17 @@
 /Users/maciek/project/projektQuiz/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/QuizApp.pdb
 /Users/maciek/project/projektQuiz/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/QuizApp.genruntimeconfig.cache
 /Users/maciek/project/projektQuiz/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/ref/QuizApp.dll
+/Users/maciek/project/projektQuiz/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/resourcestamps/Microsoft.Extensions.Configuration.Abstractions.stamp
+/Users/maciek/project/projektQuiz/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/resourcestamps/Microsoft.Extensions.Configuration.stamp
+/Users/maciek/project/projektQuiz/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/resourcestamps/Microsoft.Extensions.DependencyInjection.Abstractions.stamp
+/Users/maciek/project/projektQuiz/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/resourcestamps/Microsoft.Extensions.DependencyInjection.stamp
+/Users/maciek/project/projektQuiz/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/resourcestamps/Microsoft.Extensions.Logging.Abstractions.stamp
+/Users/maciek/project/projektQuiz/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/resourcestamps/Microsoft.Extensions.Logging.Debug.stamp
+/Users/maciek/project/projektQuiz/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/resourcestamps/Microsoft.Extensions.Logging.stamp
+/Users/maciek/project/projektQuiz/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/resourcestamps/Microsoft.Extensions.Options.stamp
+/Users/maciek/project/projektQuiz/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/resourcestamps/Microsoft.Extensions.Primitives.stamp
+/Users/maciek/project/projektQuiz/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/resourcestamps/Microsoft.Maui.Controls.stamp
+/Users/maciek/project/projektQuiz/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/resourcestamps/Microsoft.Maui.Controls.Xaml.stamp
+/Users/maciek/project/projektQuiz/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/resourcestamps/Microsoft.Maui.stamp
+/Users/maciek/project/projektQuiz/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/resourcestamps/Microsoft.Maui.Essentials.stamp
+/Users/maciek/project/projektQuiz/obj/Debug/net9.0-maccatalyst/maccatalyst-x64/resourcestamps/Microsoft.Maui.Graphics.stamp

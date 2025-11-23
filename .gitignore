@@ -36,3 +36,5 @@ bootstrap/cache/
 .env
 .env.*.local
 .phpunit.result.cache
+.bin
+.obj
