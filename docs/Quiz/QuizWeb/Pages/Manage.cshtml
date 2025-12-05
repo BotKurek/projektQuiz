@@ -1,0 +1,86 @@
+@page
+@model ManageModel
+@{
+    ViewData["Title"] = "Zarządzanie Quizem";
+}
+
+<div class="container">
+    <h1 class="mb-4">⚙️ Panel Administratora</h1>
+    
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    Dodaj Nowe Pytanie
+                </div>
+                <div class="card-body">
+                    <form asp-page-handler="Add" method="post">
+                        <div class="mb-3">
+                            <label>Treść Pytania:</label>
+                            <input asp-for="NewQuestionText" class="form-control" required />
+                        </div>
+
+                        <label>Odpowiedzi:</label>
+                        @for (int i = 0; i < 4; i++)
+                        {
+                            <div class="input-group mb-2">
+                                <div class="input-group-text">
+                                    <input type="radio" asp-for="CorrectAnswerIndex" value="@i" required title="Zaznacz poprawną" />
+                                </div>
+                                <input name="NewAnswers[@i]" class="form-control" placeholder="Odpowiedź @(i+1)" required />
+                            </div>
+                        }
+                        <div class="form-text mb-3">Zaznacz kółko przy poprawnej odpowiedzi.</div>
+
+                        <button type="submit" class="btn btn-success w-100">➕ Dodaj do Bazy</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <div class="card shadow-sm">
+                <div class="card-header bg-secondary text-white">
+                    Istniejące Pytania (Baza Danych)
+                </div>
+                <div class="card-body">
+                    @if (Model.Questions.Count == 0)
+                    {
+                        <p class="text-muted">Baza jest pusta.</p>
+                    }
+                    else
+                    {
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Pytanie</th>
+                                    <th>Akcja</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var q in Model.Questions)
+                                {
+                                    <tr>
+                                        <td>@q.Id</td>
+                                        <td>@q.Text</td>
+                                        <td>
+                                            <form asp-page-handler="Delete" method="post" onsubmit="return confirm('Czy na pewno usunąć?');">
+                                                <input type="hidden" name="id" value="@q.Id" />
+                                                <button type="submit" class="btn btn-danger btn-sm">🗑️ Usuń</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <a href="/" class="btn btn-outline-dark">⬅️ Wróć do Quizu</a>
+    </div>
+</div>

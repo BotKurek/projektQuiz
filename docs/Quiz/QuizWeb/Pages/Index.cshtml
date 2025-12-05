@@ -1,0 +1,54 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Quiz";
+}
+
+<div class="text-center">
+    <h1 class="display-4">🎮 Gaming Quiz</h1>
+    
+    @if (Model.IsFinished)
+    {
+        <div class="alert alert-success mt-5">
+            <h2>Koniec Gry!</h2>
+            <p class="fs-4">Twój wynik: <strong>@Model.Score</strong> / <strong>@Model.TotalQuestions</strong></p>
+            <a href="/" class="btn btn-primary btn-lg">Zagraj ponownie</a>
+        </div>
+    }
+    else if (Model.CurrentQuestion != null)
+    {
+        <div class="card mt-4 shadow-sm">
+            <div class="card-header bg-light">
+                Pytanie @(Model.CurrentQuestionIndex + 1) z @Model.TotalQuestions
+            </div>
+            <div class="card-body">
+                <h3 class="card-title mb-4">@Model.CurrentQuestion.Text</h3>
+                
+                <form method="post">
+                    <div class="d-grid gap-2 col-md-8 mx-auto">
+                        @for (int i = 0; i < Model.CurrentQuestion.Answers.Count; i++)
+                        {
+                            <button type="submit" 
+                                    name="selectedAnswerIndex" 
+                                    value="@i" 
+                                    class="btn btn-outline-primary text-start p-3">
+                                @Model.CurrentQuestion.Answers[i].Text
+                            </button>
+                        }
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="mt-3 text-muted">
+            Aktualny wynik: @Model.Score punktów
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            <p>Nie udało się załadować pytań. Sprawdź plik gaming_quiz.json.</p>
+        </div>
+    }
+    <hr class="mt-5" />
+    <a href="/Manage" class="btn btn-secondary btn-sm">⚙️ Zarządzaj pytaniami</a>
+</div>
