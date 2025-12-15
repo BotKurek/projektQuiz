@@ -19,7 +19,6 @@ namespace QuizWeb.Services
         // Metoda inicjalizująca (Seeding) - przenosi dane z JSON do Bazy
         public void SeedData()
         {
-            // Jeśli baza już coś zawiera, nie robimy nic
             if (_context.Questions.Any()) 
             {
                 return;
@@ -33,8 +32,7 @@ namespace QuizWeb.Services
                 { 
                     PropertyNameCaseInsensitive = true 
                 };
-                
-                // Tutaj używamy klasy QuizRoot, która jest zdefiniowana poniżej
+            
                 var quizData = JsonSerializer.Deserialize<QuizRoot>(jsonString, options);
 
                 if (quizData?.Questions != null)
@@ -49,7 +47,6 @@ namespace QuizWeb.Services
 
         public List<Question> GetQuestions()
         {
-            // Pobieramy pytania wraz z odpowiedziami (Include)
             return _context.Questions
                            .Include(q => q.Answers)
                            .ToList();
@@ -72,7 +69,6 @@ namespace QuizWeb.Services
         }
     }
 
-    // 👇 TEJ KLASY BRAKOWAŁO - DODAJ JĄ NA KOŃCU PLIKU 👇
     public class QuizRoot
     {
         public string Title { get; set; } = "";

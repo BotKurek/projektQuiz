@@ -48,14 +48,14 @@ namespace QuizWeb.Pages
                 newQuestion.Answers.Add(new Answer
                 {
                     Text = NewAnswers[i],
-                    IsCorrect = (i == CorrectAnswerIndex) // Ustawiamy true tylko dla zaznaczonego
+                    IsCorrect = (i == CorrectAnswerIndex)
                 });
             }
 
             // Wywołujemy Twój serwis (CRUD - Create)
             _quizService.AddQuestion(newQuestion);
 
-            return RedirectToPage(); // Odśwież stronę
+            return RedirectToPage();
         }
 
         // DELETE - Usuń pytanie
