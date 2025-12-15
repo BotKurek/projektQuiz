@@ -21,12 +21,12 @@ namespace QuizWeb.Pages
         public string NewQuestionText { get; set; } = "";
         
         [BindProperty]
-        public List<string> NewAnswers { get; set; } = new List<string> { "", "", "", "" }; // 4 puste pola
+        public List<string> NewAnswers { get; set; } = new List<string> { "", "", "", "" };
         
         [BindProperty]
-        public int CorrectAnswerIndex { get; set; } = 0; // Która odpowiedź jest poprawna (0-3)
+        public int CorrectAnswerIndex { get; set; } = 0;
 
-        // READ - Pobierz listę pytań
+    
         public void OnGet()
         {
             Questions = _quizService.GetQuestions();
@@ -35,7 +35,6 @@ namespace QuizWeb.Pages
         // CREATE - Dodaj pytanie
         public IActionResult OnPostAdd()
         {
-            // Budujemy obiekt pytania
             var newQuestion = new Question
             {
                 Text = NewQuestionText,
@@ -52,7 +51,6 @@ namespace QuizWeb.Pages
                 });
             }
 
-            // Wywołujemy Twój serwis (CRUD - Create)
             _quizService.AddQuestion(newQuestion);
 
             return RedirectToPage();
@@ -61,7 +59,7 @@ namespace QuizWeb.Pages
         // DELETE - Usuń pytanie
         public IActionResult OnPostDelete(int id)
         {
-            // Wywołujemy Twój serwis (CRUD - Delete)
+        
             _quizService.DeleteQuestion(id);
             
             return RedirectToPage();
