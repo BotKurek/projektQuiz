@@ -1,0 +1,162 @@
+@page "/manage"
+@inject QuizService QuizService
+@inject IJSRuntime JS
+@rendermode InteractiveServer
+
+<div class="container">
+    <h1 class="mb-4">⚙️ Panel Administratora (Blazor)</h1>
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    Dodaj Nowe Pytanie
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label>Treść Pytania:</label>
+                        <input @bind="newQuestionText" class="form-control" placeholder="Wpisz treść..." />
+                    </div>
+
+                    <label>Odpowiedzi:</label>
+                    @for (int i = 0; i < 4; i++)
+                    {
+                        int index = i; // Kopia zmiennej dla domknięcia (closure)
+                        <div class="input-group mb-2">
+                            <div class="input-group-text">
+                                <input type="radio" 
+                                       name="correctAnswerGroup" 
+                                       checked="@(correctAnswerIndex == index)"
+                                       @onchange="@(() => correctAnswerIndex = index)" 
+                                       title="Zaznacz poprawną" />
+                            </div>
+                            <input @bind="newAnswers[index]" class="form-control" placeholder="Odpowiedź @(index + 1)" />
+                        </div>
+                    }
+                    <div class="form-text mb-3">Zaznacz kółko przy poprawnej odpowiedzi.</div>
+
+                    <button class="btn btn-success w-100" @onclick="AddQuestion">➕ Dodaj do Bazy</button>
+                    
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert alert-danger mt-2">@errorMessage</div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <div class="card shadow-sm">
+                <div class="card-header bg-secondary text-white">
+                    Istniejące Pytania (Baza Danych)
+                </div>
+                <div class="card-body">
+                    @if (questions == null)
+                    {
+                        <p>Ładowanie...</p>
+                    }
+                    else if (questions.Count == 0)
+                    {
+                        <p class="text-muted">Baza jest pusta.</p>
+                    }
+                    else
+                    {
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Pytanie</th>
+                                    <th>Akcja</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var q in questions)
+                                {
+                                    <tr>
+                                        <td>@q.Id</td>
+                                        <td>@q.Text</td>
+                                        <td>
+                                            <button class="btn btn-danger btn-sm" @onclick="() => ConfirmDelete(q.Id)">
+                                                🗑️ Usuń
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <a href="/" class="btn btn-outline-dark">⬅️ Wróć do Quizu</a>
+    </div>
+</div>
+
+@code {
+    // Pola stanu komponentu (zastępują [BindProperty] z PageModel)
+    private List<Question> questions = new();
+    private string newQuestionText = "";
+    private string[] newAnswers = new string[4] { "", "", "", "" };
+    private int correctAnswerIndex = 0;
+    private string errorMessage = "";
+
+    // Metoda inicjalizująca (odpowiednik OnGet)
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadQuestions();
+    }
+
+    private async Task LoadQuestions()
+    {
+        questions = await QuizService.GetQuestionsAsync();
+    }
+
+    // Metoda dodawania (odpowiednik OnPostAdd)
+   private async Task AddQuestion()
+    {
+        errorMessage = "";
+
+        if (string.IsNullOrWhiteSpace(newQuestionText) || newAnswers.Any(a => string.IsNullOrWhiteSpace(a)))
+        {
+            errorMessage = "Wypełnij treść pytania i wszystkie odpowiedzi.";
+            return;
+        }
+
+        var newQuestion = new Question
+        {
+            Text = newQuestionText,
+            Answers = new List<Answer>()
+        };
+
+        for (int i = 0; i < 4; i++)
+        {
+            newQuestion.Answers.Add(new Answer
+            {
+                Text = newAnswers[i],
+                IsCorrect = (i == correctAnswerIndex)
+            });
+        }
+
+        // await dla serwisu
+        await QuizService.AddQuestionAsync(newQuestion);
+        
+        newQuestionText = "";
+        newAnswers = new string[4] { "", "", "", "" };
+        correctAnswerIndex = 0;
+
+        await LoadQuestions();
+    }
+
+    private async Task ConfirmDelete(int id)
+    {
+        bool confirmed = await JS.InvokeAsync<bool>("confirm", "Czy na pewno usunąć to pytanie?");
+        if (confirmed)
+        {
+            await QuizService.DeleteQuestionAsync(id);
+            await LoadQuestions();
+        }
+    }
+}

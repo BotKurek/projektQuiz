@@ -24,38 +24,39 @@ namespace QuizWeb.Pages
         public bool IsFinished { get; set; } = false;
         public int TotalQuestions { get; set; }
 
-        public void OnGet()
-        {
-            var questions = _quizService.GetQuestions();
-            TotalQuestions = questions.Count;
+        public async Task OnGetAsync() // Zmiana na OnGetAsync
+    {
+        var questions = await _quizService.GetQuestionsAsync(); // Użycie nowej metody
+        TotalQuestions = questions.Count;
 
-            if (questions.Any() && CurrentQuestionIndex < TotalQuestions)
-            {
-                CurrentQuestion = questions[CurrentQuestionIndex];
-            }
-            else
-            {
-                IsFinished = true;
-            }
+        if (questions.Any() && CurrentQuestionIndex < TotalQuestions)
+        {
+            CurrentQuestion = questions[CurrentQuestionIndex];
         }
-
-        public IActionResult OnPost(int selectedAnswerIndex)
+        else
         {
-            var questions = _quizService.GetQuestions();
-            
-            if (CurrentQuestionIndex < questions.Count)
-            {
-                var question = questions[CurrentQuestionIndex];
-                if (selectedAnswerIndex >= 0 && selectedAnswerIndex < question.Answers.Count)
-                {
-                    if (question.Answers[selectedAnswerIndex].IsCorrect)
-                    {
-                        Score++;
-                    }
-                }
-            }
-
-            return RedirectToPage("Index", new { CurrentQuestionIndex = CurrentQuestionIndex + 1, Score = Score });
+            IsFinished = true;
         }
     }
+
+    public async Task<IActionResult> OnPostAsync(int selectedAnswerIndex) // Zmiana na OnPostAsync
+    {
+        var questions = await _quizService.GetQuestionsAsync(); // Użycie nowej metody
+        
+        if (CurrentQuestionIndex < questions.Count)
+        {
+            var question = questions[CurrentQuestionIndex];
+            if (selectedAnswerIndex >= 0 && selectedAnswerIndex < question.Answers.Count)
+            {
+                if (question.Answers[selectedAnswerIndex].IsCorrect)
+                {
+                    Score++;
+                }
+            }
+        }
+
+        return RedirectToPage("Index", new { CurrentQuestionIndex = CurrentQuestionIndex + 1, Score = Score });
+    }
+
+}
 }

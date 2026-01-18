@@ -16,10 +16,10 @@ namespace QuizWeb.Services
             _environment = environment;
         }
 
-        // Metoda inicjalizująca (Seeding) - przenosi dane z JSON do Bazy
-        public void SeedData()
+        // ASYNC: Wczytywanie z pliku JSON (zewnętrzne źródło)
+        public async Task SeedDataAsync()
         {
-            if (_context.Questions.Any()) 
+            if (await _context.Questions.AnyAsync()) 
             {
                 return;
             }
@@ -27,44 +27,46 @@ namespace QuizWeb.Services
             var path = Path.Combine(_environment.ContentRootPath, "gaming_quiz.json");
             if (File.Exists(path))
             {
-                var jsonString = File.ReadAllText(path);
+                // Zmiana na ReadAllTextAsync
+                var jsonString = await File.ReadAllTextAsync(path);
                 var options = new JsonSerializerOptions 
                 { 
                     PropertyNameCaseInsensitive = true 
                 };
-            
+                
                 var quizData = JsonSerializer.Deserialize<QuizRoot>(jsonString, options);
 
                 if (quizData?.Questions != null)
                 {
-                    _context.Questions.AddRange(quizData.Questions);
-                    _context.SaveChanges();
+                    await _context.Questions.AddRangeAsync(quizData.Questions);
+                    await _context.SaveChangesAsync();
                 }
             }
         }
 
-        // --- CRUD (Metody do obsługi bazy danych) ---
+        // --- CRUD ASYNC ---
 
-        public List<Question> GetQuestions()
+        public async Task<List<Question>> GetQuestionsAsync()
         {
-            return _context.Questions
+            // Zmiana na ToListAsync
+            return await _context.Questions
                            .Include(q => q.Answers)
-                           .ToList();
+                           .ToListAsync();
         }
 
-        public void AddQuestion(Question question)
+        public async Task AddQuestionAsync(Question question)
         {
-            _context.Questions.Add(question);
-            _context.SaveChanges();
+            await _context.Questions.AddAsync(question);
+            await _context.SaveChangesAsync();
         }
 
-        public void DeleteQuestion(int id)
+        public async Task DeleteQuestionAsync(int id)
         {
-            var question = _context.Questions.Find(id);
+            var question = await _context.Questions.FindAsync(id);
             if (question != null)
             {
                 _context.Questions.Remove(question);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
     }
